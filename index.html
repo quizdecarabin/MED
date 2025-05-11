@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HistoQuiz - Plateforme d'Histologie</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-dark: #0a369d;
+      --primary-main: #4472ca;
+      --primary-light: #e0e7ff;
+      --secondary-dark: #5e7ce2;
+      --secondary-main: #92b4f4;
+      --secondary-light: #cfdee7;
+      --text-primary: #2b2d42;
+      --text-secondary: #6c757d;
+      --background: #f8f9fa;
+      --surface: #ffffff;
+      --error: #e63946;
+      --success: #2a9d8f;
+      --warning: #ff9f1c;
+      --border-radius: 12px;
+      --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      background-color: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    @font-face {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrJJfedw.ttf) format('truetype');
+    }
+
+    /* Header amélioré */
+    .header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary-main));
+      color: white;
+      padding: 1.2rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .logo-icon {
+      font-size: 2rem;
+      color: var(--primary-light);
+    }
+
+    /* Contenu principal */
+    .container {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+    }
+
+    /* Cartes modernes */
+    .card {
+      background: var(--surface);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 2rem;
+      transition: var(--transition);
+      border-top: 4px solid var(--primary-main);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-main), var(--secondary-main));
+    }
+
+    /* Typographie améliorée */
+    h1, h2, h3 {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      line-height: 1.2;
+      background: linear-gradient(90deg, var(--primary-dark), var(--secondary-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      position: relative;
+      padding-bottom: 0.8rem;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-main), var(--secondary-main));
+      border-radius: 2px;
+    }
+
+    /* Formulaire élégant */
+    .form-group {
+      margin-bottom: 1.8rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.6rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      border: 1px solid #e0e0e0;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: var(--transition);
+      background-color: #f8fafc;
+    }
+
+    input:focus {
+      border-color: var(--primary-main);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--primary-light);
+      background-color: var(--surface);
+    }
+
+    /* Boutons premium */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      border: none;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-main), var(--secondary-dark));
+      color: white;
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(26, 115, 232, 0.35);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid var(--primary-main);
+      color: var(--primary-main);
+      font-weight: 500;
+    }
+
+    .btn-outline:hover {
+      background-color: var(--primary-light);
+      border-color: var(--primary-dark);
+      color: var(--primary-dark);
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    /* Messages stylisés */
+    .message {
+      padding: 1.2rem 1.5rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: 500;
+    }
+
+    .message i {
+      font-size: 1.5rem;
+    }
+
+    .error {
+      background-color: rgba(230, 57, 70, 0.1);
+      color: var(--error);
+      border-left: 4px solid var(--error);
+    }
+
+    .success {
+      background-color: rgba(42, 157, 143, 0.1);
+      color: var(--success);
+      border-left: 4px solid var(--success);
+    }
+
+    /* Grille de quiz améliorée */
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+
+    .quiz-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .quiz-header {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .quiz-icon {
+      font-size: 2.2rem;
+      color: var(--primary-main);
+      min-width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--primary-light);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .quiz-title {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary-dark);
+    }
+
+    .quiz-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin: 1.2rem 0;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .quiz-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .quiz-score {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 0.5rem 1rem;
+      border-radius: 1.5rem;
+      font-weight: 600;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+
+    .quiz-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: auto;
+      padding-top: 1.5rem;
+    }
+
+    /* Badges modernes */
+    .badge {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      border-radius: 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-epithelium {
+      background-color: rgba(68, 114, 202, 0.15);
+      color: var(--primary-dark);
+    }
+
+    .badge-conjonctif {
+      background-color: rgba(42, 157, 143, 0.15);
+      color: var(--success);
+    }
+
+    .badge-special {
+      background-color: rgba(255, 159, 28, 0.15);
+      color: var(--warning);
+    }
+
+    /* Section utilisateur */
+    .user-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--surface);
+      padding: 1.5rem 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      margin-bottom: 3rem;
+      border-left: 4px solid var(--primary-main);
+    }
+
+    .user-email {
+      font-weight: 600;
+      color: var(--primary-main);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Animation de chargement */
+    .loader {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive design */
+    @media (max-width: 992px) {
+      .quiz-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-content, .container {
+        padding: 0 1.5rem;
+      }
+      
+      .quiz-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .user-info {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: flex-start;
+      }
+      
+      .quiz-actions {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 1rem;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-microscope logo-icon"></i>
+        <span>HistoQuiz</span>
+      </div>
+      <div id="user-info-header" class="hidden">
+        <span style="color: white; margin-right: 1.5rem;" id="user-email-header"></span>
+        <button id="logout-button-header" class="btn btn-outline" style="color: white; border-color: white;">
+          <i class="fas fa-sign-out-alt"></i> Déconnexion
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="auth-container" class="card">
+      <h2 class="text-center"><i class="fas fa-user-graduate"></i> Connexion</h2>
+      <div id="login-error" class="message error hidden">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="error-text"></span>
+      </div>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="email"><i class="fas fa-envelope"></i> Adresse email</label>
+          <input type="email" id="email" placeholder="exemple@email.com" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="password"><i class="fas fa-lock"></i> Mot de passe</label>
+          <input type="password" id="password" placeholder="••••••••" required />
+        </div>
+        
+        <div class="form-group text-center">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-sign-in-alt"></i> Se connecter / S'inscrire
+          </button>
+        </div>
+      </form>
+    </div>
+    
+    <div id="app-container" class="hidden">
+      <div class="user-info">
+        <div>
+          <span>Connecté en tant que : </span>
+          <span class="user-email" id="user-email"></span>
+        </div>
+        <button id="logout-button" class="btn btn-outline">
+          <i class="fas fa-sign-out-alt"></i> Déconnexion
+        </button>
+      </div>
+      
+      <div id="success-message" class="message success hidden">
+        <i class="fas fa-check-circle"></i>
+        <span id="success-text"></span>
+      </div>
+      
+      <h2><i class="fas fa-book-medical"></i> Quiz d'Histologie</h2>
+      
+      <div class="quiz-grid">
+        <!-- Quiz cards will be inserted here by JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // DOM Elements
+    const quizGrid = document.querySelector('.quiz-grid');
+    const authContainer = document.getElementById('auth-container');
+    const appContainer = document.getElementById('app-container');
+    const loginForm = document.getElementById('login-form');
+    const logoutButton = document.getElementById('logout-button');
+    const logoutButtonHeader = document.getElementById('logout-button-header');
+    const userEmail = document.getElementById('user-email');
+    const userEmailHeader = document.getElementById('user-email-header');
+    const userInfoHeader = document.getElementById('user-info-header');
+    const loginError = document.getElementById('login-error');
+    const errorText = document.getElementById('error-text');
+    const successMessage = document.getElementById('success-message');
+    const successText = document.getElementById('success-text');
+
+    // State
+    let currentUser = null;
+    const quizzes = [
+      {
+        id: 1,
+        title: "Tissu épithélial 1",
+        category: "Épithélium",
+        questions: 20,
+        time: 25,
+        icon: "fa-layer-group",
+        formUrl: "https://forms.gle/UxRK7aJRq6XDQN2P9",
+        badgeClass: "badge-epithelium"
+      },
+      {
+        id: 2,
+        title: "Tissu épithélial 2",
+        category: "Épithélium",
+        questions: 25,
+        time: 30,
+        icon: "fa-layer-group",
+        formUrl: "https://forms.gle/KZnRV9tB7coh6nUh8",
+        badgeClass: "badge-epithelium"
+      },
+      {
+        id: 3,
+        title: "Tissu conjonctif 1",
+        category: "Conjonctif",
+        questions: 20,
+        time: 25,
+        icon: "fa-project-diagram",
+        formUrl: "https://forms.gle/PTAFbAHHSEzfouSW6",
+        badgeClass: "badge-conjonctif"
+      },
+      {
+        id: 4,
+        title: "Tissu conjonctif 2",
+        category: "Conjonctif",
+        questions: 25,
+        time: 30,
+        icon: "fa-project-diagram",
+        formUrl: "https://forms.gle/eU7ZTkPeYRJjuArB9",
+        badgeClass: "badge-conjonctif"
+      },
+      {
+        id: 5,
+        title: "Tissu conjonctif 3",
+        category: "Conjonctif",
+        questions: 30,
+        time: 35,
+        icon: "fa-project-diagram",
+        formUrl: "https://forms.gle/gcAjNZjVNGg9XBQK6",
+        badgeClass: "badge-conjonctif"
+      },
+      {
+        id: 6,
+        title: "Tissu cartilagineux",
+        category: "Spécialisé",
+        questions: 20,
+        time: 25,
+        icon: "fa-bone",
+        formUrl: "https://forms.gle/hK9XSirZEkxU1kbK6",
+        badgeClass: "badge-special"
+      },
+      {
+        id: 7,
+        title: "Tissu osseux 1",
+        category: "Spécialisé",
+        questions: 25,
+        time: 30,
+        icon: "fa-bone",
+        formUrl: "https://forms.gle/Si5u6NmUrKw7x5de7",
+        badgeClass: "badge-special"
+      },
+      {
+        id: 8,
+        title: "Tissu osseux 2",
+        category: "Spécialisé",
+        questions: 30,
+        time: 35,
+        icon: "fa-bone",
+        formUrl: "https://forms.gle/oo1DfVFf8YW5KsGm9",
+        badgeClass: "badge-special"
+      }
+    ];
+
+    // Functions
+    function renderQuizzes() {
+      quizGrid.innerHTML = '';
+      
+      quizzes.forEach(quiz => {
+        const scoreKey = `score_${currentUser.email}_${quiz.id}`;
+        const savedScore = localStorage.getItem(scoreKey);
+        const dateKey = `date_${currentUser.email}_${quiz.id}`;
+        const savedDate = localStorage.getItem(dateKey);
+        
+        let scoreDisplay = '';
+        if (savedScore) {
+          scoreDisplay = `
+            <div class="quiz-score">
+              <i class="fas fa-star"></i> ${savedScore}/20
+              ${savedDate ? `<small>(le ${savedDate})</small>` : ''}
+            </div>
+          `;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'card quiz-card';
+        card.innerHTML = `
+          <div class="quiz-header">
+            <div class="quiz-icon">
+              <i class="fas ${quiz.icon}"></i>
+            </div>
+            <div>
+              <h3 class="quiz-title">${quiz.title}</h3>
+              <span class="badge ${quiz.badgeClass}">${quiz.category}</span>
+            </div>
+          </div>
+          
+          <div class="quiz-meta">
+            <span><i class="far fa-question-circle"></i> ${quiz.questions} questions</span>
+            <span><i class="far fa-clock"></i> ${quiz.time} min</span>
+          </div>
+          
+          ${scoreDisplay}
+          
+          <div class="quiz-actions">
+            <a href="${quiz.formUrl}" target="_blank" class="btn btn-primary">
+              <i class="fas fa-play"></i> Commencer
+            </a>
+            <button class="btn btn-outline" onclick="saveScore(${quiz.id})">
+              <i class="fas fa-save"></i> Noter
+            </button>
+          </div>
+        `;
+        quizGrid.appendChild(card);
+      });
+    }
+
+    function saveScore(quizId) {
+      let score;
+      let isValid = false;
+      
+      while (!isValid) {
+        score = prompt("Entrez votre note sur 20 pour ce quiz :");
+        if (score === null) return;
+        
+        score = parseFloat(score.replace(',', '.'));
+        isValid = !isNaN(score) && score >= 0 && score <= 20;
+        
+        if (!isValid) {
+          alert("Veuillez entrer une note valide entre 0 et 20");
+        }
+      }
+      
+      const scoreKey = `score_${currentUser.email}_${quizId}`;
+      localStorage.setItem(scoreKey, score.toFixed(2));
+      
+      const dateKey = `date_${currentUser.email}_${quizId}`;
+      localStorage.setItem(dateKey, new Date().toLocaleDateString('fr-FR'));
+      
+      showSuccess(`Note de ${score.toFixed(2)}/20 enregistrée avec succès !`);
+      renderQuizzes();
+    }
+
+    function showError(message) {
+      errorText.textContent = message;
+      loginError.classList.remove('hidden');
+    }
+
+    function showSuccess(message) {
+      successText.textContent = message;
+      successMessage.classList.remove('hidden');
+      setTimeout(() => {
+        successMessage.classList.add('hidden');
+      }, 3000);
+    }
+
+    function hideMessages() {
+      loginError.classList.add('hidden');
+      successMessage.classList.add('hidden');
+    }
+
+    function proceedLogin() {
+      localStorage.setItem('histoQuizCurrentUser', JSON.stringify(currentUser));
+      authContainer.classList.add('hidden');
+      appContainer.classList.remove('hidden');
+      userInfoHeader.classList.remove('hidden');
+      userEmail.textContent = currentUser.email;
+      userEmailHeader.textContent = currentUser.email;
+      hideMessages();
+      renderQuizzes();
+    }
+
+    // Event Listeners
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      hideMessages();
+      
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      
+      // Validation
+      if (!email || !password) {
+        showError("Veuillez remplir tous les champs");
+        return;
+      }
+      
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError("Veuillez entrer une adresse email valide");
+        return;
+      }
+      
+      const users = JSON.parse(localStorage.getItem('histoQuizUsers')) || [];
+      const existingUser = users.find(u => u.email === email);
+
+      if (existingUser) {
+        if (existingUser.password === password) {
+          currentUser = existingUser;
+          proceedLogin();
+        } else {
+          showError("Mot de passe incorrect");
+        }
+      } else {
+        const newUser = { email, password };
+        users.push(newUser);
+        localStorage.setItem('histoQuizUsers', JSON.stringify(users));
+        currentUser = newUser;
+        showSuccess("Compte créé avec succès !");
+        proceedLogin();
+      }
+    });
+
+    [logoutButton, logoutButtonHeader].forEach(btn => {
+      btn.addEventListener('click', () => {
+        localStorage.removeItem('histoQuizCurrentUser');
+        location.reload();
+      });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedUser = JSON.parse(localStorage.getItem('histoQuizCurrentUser'));
+      if (savedUser) {
+        currentUser = savedUser;
+        proceedLogin();
+      }
+    });
+
+    // Make saveScore available globally
+    window.saveScore = saveScore;
+  </script>
+</body>
+</html>
