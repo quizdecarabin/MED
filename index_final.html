@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz de Carabin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* [Vos styles CSS existants - inchangés] */
+    :root{--primary-dark:#0d47a1;--primary-main:#1976d2;--primary-light:#e3f2fd;--secondary-dark:#00838f;--secondary-main:#00acc1;--text-primary:#212121;--text-secondary:#757575;--background:#f5f5f5;--surface:#fff;--error:#d32f2f;--success:#388e3c;--warning:#ffa000;--border-radius:8px;--box-shadow:0 2px 10px rgba(0,0,0,0.1);--transition:all 0.3s ease}*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Roboto',sans-serif;background:var(--background);color:var(--text-primary);line-height:1.6;min-height:100vh;padding:20px}.container{max-width:900px;margin:0 auto;background:var(--surface);padding:30px;border-radius:var(--border-radius);box-shadow:var(--box-shadow)}header{text-align:center;margin-bottom:30px;padding-bottom:20px;border-bottom:1px solid #eee}h1{color:var(--primary-dark);font-size:2.2rem;margin-bottom:10px}h2{color:var(--primary-main);margin:25px 0 15px;font-size:1.5rem}h3{color:var(--text-primary);margin-bottom:10px;font-size:1.2rem}.form-group{margin-bottom:20px}label{display:block;margin-bottom:8px;font-weight:500;color:var(--text-primary)}input{width:100%;padding:12px 15px;border:1px solid #ddd;border-radius:var(--border-radius);font-size:16px;transition:var(--transition)}input:focus{outline:none;border-color:var(--primary-main);box-shadow:0 0 0 2px rgba(25,118,210,0.2)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;background:var(--primary-main);color:#fff;border:none;border-radius:var(--border-radius);cursor:pointer;font-size:16px;font-weight:500;text-align:center;transition:var(--transition);width:100%;margin-top:10px;text-decoration:none}.btn:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.1)}.btn:active{transform:translateY(0)}.btn-outline{background:transparent;border:2px solid var(--primary-main);color:var(--primary-main)}.btn-outline:hover{background:var(--primary-light)}.btn-success{background:var(--success)}.btn-success:hover{background:#2e7d32}.btn-warning{background:var(--warning)}.btn-warning:hover{background:#ff8f00}.btn-disabled{background:#e0e0e0;color:#9e9e9e;cursor:not-allowed;opacity:0.7}.message{padding:15px;border-radius:var(--border-radius);margin-bottom:20px;display:flex;align-items:center;gap:10px;animation:fadeIn 0.3s ease-out}@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}.error{background:rgba(211,47,47,0.1);color:var(--error);border-left:4px solid var(--error)}.success{background:rgba(56,142,60,0.1);color:var(--success);border-left:4px solid var(--success)}.warning{background:rgba(255,160,0,0.1);color:var(--warning);border-left:4px solid var(--warning)}.divider{text-align:center;margin:25px 0;position:relative}.divider::before{content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:#eee;z-index:-1}.divider span{background:var(--surface);padding:0 15px;color:var(--text-secondary)}.quiz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin-top:20px}.quiz-card{border:1px solid #e0e0e0;border-radius:var(--border-radius);padding:20px;transition:var(--transition);background:var(--surface);display:flex;flex-direction:column}.quiz-card:hover{transform:translateY(-5px);box-shadow:var(--box-shadow)}.quiz-title{font-size:1.1rem;margin-bottom:10px;color:var(--primary-dark);flex-grow:1}.quiz-meta{display:flex;gap:15px;color:var(--text-secondary);font-size:0.9rem;margin-bottom:15px;flex-wrap:wrap}.score-input{display:flex;gap:10px;align-items:center;margin-top:10px;width:100%}.score-input input{flex:1;max-width:80px;padding:8px 10px;margin:0}.score-input button{padding:8px 12px;width:auto;margin:0;font-size:14px}.access-info{margin:20px 0;padding:15px;background-color:var(--primary-light);border-radius:var(--border-radius);font-size:0.95rem;text-align:center;display:flex;align-items:center;justify-content:center;gap:10px}.progress-container{margin:30px 0;background:var(--surface);border-radius:var(--border-radius);box-shadow:var(--box-shadow);padding:20px}.progress-table{width:100%;border-collapse:collapse;margin-top:15px}.progress-table th,.progress-table td{padding:12px 15px;text-align:left;border-bottom:1px solid #eee}.progress-table th{background-color:var(--primary-light);color:var(--primary-dark);font-weight:500}.progress-table tr:hover{background-color:#f9f9f9}.progress-bar{height:8px;background-color:#e0e0e0;border-radius:4px;overflow:hidden;margin-top:5px}.progress-fill{height:100%;background-color:var(--success);width:0%;transition:width 0.5s ease}.loading{display:inline-block;width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin 1s ease-in-out infinite}@keyframes spin{to{transform:rotate(360deg)}}.hidden{display:none!important}footer{text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #eee;color:var(--text-secondary);font-size:0.9rem}@media (max-width:768px){body{padding:15px}.container{padding:20px}.quiz-grid{grid-template-columns:1fr}.progress-table{display:block;overflow-x:auto}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header><h1><i class="fas fa-graduation-cap"></i> Quiz de Carabin</h1><p>Plateforme d'entraînement médical</p></header>
+    
+    <div id="free-quiz-section">
+      <h2><i class="fas fa-flask"></i> Quiz test gratuit</h2>
+      <div class="quiz-card">
+        <h3 class="quiz-title">Tissu épithélial 1</h3>
+        <div class="quiz-meta"><span><i class="far fa-question-circle"></i> 20 questions</span><span><i class="far fa-clock"></i> 25 min</span></div>
+        <button class="btn btn-success" onclick="startFreeQuiz()"><i class="fas fa-play"></i> Commencer</button>
+        <div class="score-input"><input type="number" id="free-quiz-note" placeholder="Note/20" min="0" max="20"><button class="btn btn-outline" onclick="saveFreeQuizScore()"><i class="fas fa-save"></i> Enregistrer</button></div>
+      </div>
+    </div>
+    
+    <div id="auth-container" style="margin-top:30px">
+      <div id="login-error" class="message error hidden"><i class="fas fa-exclamation-circle"></i><span id="error-text"></span></div>
+      <form id="registration-form">
+        <div class="form-group"><label for="email">Email</label><input type="email" id="email" placeholder="votre@email.com" required></div>
+        <div class="form-group"><label for="password">Mot de passe</label><input type="password" id="password" placeholder="••••••••" required></div>
+        <div class="form-group"><label for="code">Code d'accès</label><input type="text" id="code" placeholder="HP-2396"></div>
+        <button type="submit" class="btn" id="submit-btn"><i class="fas fa-user-plus"></i> Valider l'accès</button>
+      </form>
+      <div class="divider"><span>OU</span></div>
+      <a href="https://pydu.me/quizmeddF1vYF" class="btn btn-outline" target="_blank"><i class="fas fa-credit-card"></i> Payer l'abonnement</a>
+      <button class="btn btn-warning" id="no-code-btn" style="margin-top:15px"><i class="fas fa-envelope"></i> Je n'ai pas reçu mon code</button>
+    </div>
+    
+    <div id="quiz-section" class="hidden">
+      <div class="access-info hidden" id="access-info"><i class="fas fa-clock"></i> Accès valide jusqu'au <span id="expiry-date"></span></div>
+      <h2><i class="fas fa-star"></i> Quiz premium</h2>
+      <div class="quiz-grid" id="quiz-list"></div>
+      <div class="progress-container" id="progress-container">
+        <h3><i class="fas fa-chart-line"></i> Votre progression</h3>
+        <table class="progress-table"><thead><tr><th>Quiz</th><th>Statut</th><th>Score</th><th>Progression</th></tr></thead><tbody id="progress-body"></tbody></table>
+      </div>
+    </div>
+    
+    <footer><p>&copy; 2023 Quiz de Carabin. Tous droits réservés.</p></footer>
+  </div>
+
+  <script>
+    // Configuration
+    const CONFIG = {
+      VALID_CODE: "HP-2396",
+      ACCESS_KEY: "quizDeCarabinAccess",
+      ACCESS_DURATION_DAYS: 30,
+      FREE_QUIZ_URL: "https://forms.gle/UxRK7aJRq6XDQN2P9",
+      PREMIUM_QUIZZES: [
+        {id:1,title:"Tissu épithélial 1",questions:20,time:25,url:"https://forms.gle/UxRK7aJRq6XDQN2P9",maxScore:20},
+        {id:2,title:"Tissu épithélial 2",questions:20,time:25,url:"https://forms.gle/KZnRV9tB7coh6nUh8",maxScore:20},
+        {id:3,title:"Tissu conjonctif 1",questions:20,time:25,url:"https://forms.gle/PTAFbAHHSEzfouSW6",maxScore:20},
+        {id:4,title:"Tissu conjonctif 2",questions:20,time:25,url:"https://forms.gle/eU7ZTkPeYRJjuArB9",maxScore:20},
+        {id:5,title:"Tissu conjonctif 3",questions:20,time:25,url:"https://forms.gle/gcAjNZjVNGg9XBQK6",maxScore:20},
+        {id:6,title:"Tissu cartilagineux",questions:20,time:25,url:"https://forms.gle/hK9XSirZEkxU1kbK6",maxScore:20},
+        {id:7,title:"Tissu osseux 1",questions:20,time:25,url:"https://forms.gle/Si5u6NmUrKw7x5de7",maxScore:20},
+        {id:8,title:"Tissu osseux 2",questions:20,time:25,url:"https://forms.gle/oo1DfVFf8YW5KsGm9",maxScore:20}
+      ],
+      CONTACT_EMAIL: "quizdecarabin@gmail.com",
+      SUBJECT_NO_CODE: "Code d'accès non reçu"
+    };
+
+    // État de l'application
+    const state = {
+      hasAccess: false,
+      expiryDate: null,
+      isLoading: false,
+      progress: {}
+    };
+
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', function() {
+      checkAccess();
+      loadProgress();
+      renderUI();
+      setupEventListeners();
+    });
+
+    // Fonctions principales
+    function checkAccess() {
+      const accessData = localStorage.getItem(CONFIG.ACCESS_KEY);
+      if (!accessData) return;
+      
+      try {
+        const {code, expiry} = JSON.parse(accessData);
+        const now = new Date();
+        state.hasAccess = (code === CONFIG.VALID_CODE) && (now < new Date(expiry));
+        state.expiryDate = new Date(expiry);
+        
+        if (!state.hasAccess) {
+          localStorage.removeItem(CONFIG.ACCESS_KEY);
+        }
+      } catch(e) {
+        localStorage.removeItem(CONFIG.ACCESS_KEY);
+        state.hasAccess = false;
+      }
+    }
+
+    function grantAccess(code) {
+      if (code !== CONFIG.VALID_CODE) {
+        showError("Code incorrect. Utilisez HP-2396");
+        return false;
+      }
+      
+      state.isLoading = true;
+      updateSubmitButton();
+      
+      // Simuler un délai pour l'animation
+      setTimeout(function() {
+        const expiryDate = new Date();
+        expiryDate.setDate(expiryDate.getDate() + CONFIG.ACCESS_DURATION_DAYS);
+        
+        localStorage.setItem(CONFIG.ACCESS_KEY, JSON.stringify({
+          code: code,
+          expiry: expiryDate.getTime()
+        }));
+        
+        state.hasAccess = true;
+        state.expiryDate = expiryDate;
+        state.isLoading = false;
+        
+        // Mise à jour complète de l'interface
+        renderUI();
+        showSuccess("Accès activé pour 30 jours !");
+        
+        // Scroll vers les quiz après un petit délai
+        setTimeout(function() {
+          document.getElementById('quiz-section').scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+        
+      }, 800); // Délai artificiel pour l'animation
+      
+      return true;
+    }
+
+    function loadProgress() {
+      const savedProgress = localStorage.getItem('quizDeCarabinProgress');
+      state.progress = savedProgress ? JSON.parse(savedProgress) : {};
+      
+      CONFIG.PREMIUM_QUIZZES.forEach(function(q) {
+        if (!state.progress[q.id]) {
+          state.progress[q.id] = {
+            completed: false,
+            score: 0,
+            note: 0,
+            attempts: 0
+          };
+        }
+      });
+    }
+
+    function saveProgress() {
+      localStorage.setItem('quizDeCarabinProgress', JSON.stringify(state.progress));
+    }
+
+    function updateProgress(quizId, note) {
+      const quiz = CONFIG.PREMIUM_QUIZZES.find(function(q) { return q.id === quizId; });
+      if (!quiz) return;
+      
+      const percentage = Math.round((note / quiz.maxScore) * 100);
+      state.progress[quizId] = {
+        completed: true,
+        score: percentage,
+        note: note,
+        attempts: (state.progress[quizId]?.attempts || 0) + 1,
+        lastAttempt: new Date().toISOString()
+      };
+      
+      saveProgress();
+      renderProgressTable();
+    }
+
+    // Fonctions d'interface
+    function renderUI() {
+      renderAccessInfo();
+      renderQuizList();
+      renderProgressTable();
+      
+      // Gestion de l'affichage des sections
+      const authContainer = document.getElementById('auth-container');
+      const quizSection = document.getElementById('quiz-section');
+      const freeQuizSection = document.getElementById('free-quiz-section');
+      
+      if (state.hasAccess) {
+        authContainer.style.display = 'none';
+        freeQuizSection.style.display = 'none';
+        quizSection.style.display = 'block';
+        quizSection.classList.remove('hidden');
+      } else {
+        authContainer.style.display = 'block';
+        freeQuizSection.style.display = 'block';
+        quizSection.style.display = 'none';
+        quizSection.classList.add('hidden');
+      }
+    }
+
+    function renderAccessInfo() {
+      const accessInfo = document.getElementById('access-info');
+      const expiryDate = document.getElementById('expiry-date');
+      
+      if (state.hasAccess && state.expiryDate) {
+        accessInfo.classList.remove('hidden');
+        expiryDate.textContent = state.expiryDate.toLocaleDateString('fr-FR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        });
+      } else {
+        accessInfo.classList.add('hidden');
+      }
+    }
+
+    function renderQuizList() {
+      const quizList = document.getElementById('quiz-list');
+      
+      quizList.innerHTML = CONFIG.PREMIUM_QUIZZES.map(function(quiz) {
+        const progress = state.progress[quiz.id] || {};
+        
+        return `
+          <div class="quiz-card">
+            <h3 class="quiz-title">${quiz.title}</h3>
+            <div class="quiz-meta">
+              <span><i class="far fa-question-circle"></i> ${quiz.questions} questions</span>
+              <span><i class="far fa-clock"></i> ${quiz.time} min</span>
+              ${progress.completed ? `<span><i class="fas fa-check-circle" style="color:var(--success)"></i> ${progress.note}/${quiz.maxScore}</span>` : ''}
+            </div>
+            <button class="btn" onclick="startPremiumQuiz(${quiz.id})">
+              <i class="fas fa-play"></i> Commencer
+            </button>
+            <div class="score-input">
+              <input type="number" id="quiz-${quiz.id}-note" placeholder="Note/${quiz.maxScore}" min="0" max="${quiz.maxScore}" value="${progress.note || ''}">
+              <button class="btn btn-outline" onclick="saveQuizScore(${quiz.id})"><i class="fas fa-save"></i> Enregistrer</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderProgressTable() {
+      const progressBody = document.getElementById('progress-body');
+      
+      progressBody.innerHTML = CONFIG.PREMIUM_QUIZZES.map(function(quiz) {
+        const progress = state.progress[quiz.id] || {};
+        
+        return `
+          <tr>
+            <td>${quiz.title}</td>
+            <td>
+              ${progress.completed ? 
+                `<span style="color:var(--success)"><i class="fas fa-check-circle"></i> Terminé</span>` : 
+                `<span style="color:var(--text-secondary)"><i class="far fa-circle"></i> Non terminé</span>`}
+            </td>
+            <td>
+              ${progress.completed ? 
+                `${progress.note}/${quiz.maxScore} (${progress.score}%)` : 
+                '-'}
+            </td>
+            <td>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:${progress.score || 0}%"></div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Gestion des événements
+    function setupEventListeners() {
+      document.getElementById('registration-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const code = document.getElementById('code').value.trim();
+        
+        if (!email || !password) {
+          showError("Remplissez tous les champs");
+          return;
+        }
+        
+        grantAccess(code);
+      });
+      
+      document.getElementById('no-code-btn').addEventListener('click', function() {
+        const subject = encodeURIComponent(CONFIG.SUBJECT_NO_CODE);
+        const body = encodeURIComponent("Bonjour,\n\nJe n'ai pas reçu mon code d'accès.\n\nMerci de me le renvoyer.\n\nCordialement,");
+        window.location.href = `mailto:${CONFIG.CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+      });
+    }
+
+    // Fonctions utilitaires
+    function startFreeQuiz() {
+      window.open(CONFIG.FREE_QUIZ_URL, "_blank");
+    }
+
+    function startPremiumQuiz(quizId) {
+      const quiz = CONFIG.PREMIUM_QUIZZES.find(function(q) { return q.id === quizId; });
+      if (quiz) {
+        window.open(quiz.url, "_blank");
+      }
+    }
+
+    function saveFreeQuizScore() {
+      const noteInput = document.getElementById('free-quiz-note');
+      const note = parseFloat(noteInput.value);
+      
+      if (isNaN(note)) {
+        showError("Veuillez entrer une note valide");
+        return;
+      }
+      
+      updateProgress(1, note);
+      showSuccess("Note enregistrée !");
+    }
+
+    function saveQuizScore(quizId) {
+      const noteInput = document.getElementById(`quiz-${quizId}-note`);
+      const note = parseFloat(noteInput.value);
+      const quiz = CONFIG.PREMIUM_QUIZZES.find(function(q) { return q.id === quizId; });
+      
+      if (!quiz || isNaN(note)) {
+        showError("Note invalide");
+        return;
+      }
+      
+      updateProgress(quizId, note);
+      showSuccess("Note enregistrée !");
+    }
+
+    function showError(msg) {
+      const errorText = document.getElementById('error-text');
+      const errorElement = document.getElementById('login-error');
+      
+      errorText.textContent = msg;
+      errorElement.classList.remove('hidden');
+      
+      setTimeout(function() {
+        errorElement.classList.add('hidden');
+      }, 5000);
+    }
+
+    function showSuccess(msg) {
+      const authContainer = document.getElementById('auth-container');
+      const div = document.createElement('div');
+      
+      div.className = 'message success';
+      div.innerHTML = `<i class="fas fa-check-circle"></i><span>${msg}</span>`;
+      
+      authContainer.prepend(div);
+      
+      setTimeout(function() {
+        div.remove();
+      }, 5000);
+    }
+
+    function showLockedMessage() {
+      showError("Validez votre accès avec le code HP-2396");
+    }
+
+    function updateSubmitButton() {
+      const submitBtn = document.getElementById('submit-btn');
+      
+      if (state.isLoading) {
+        submitBtn.innerHTML = '<div class="loading"></div> Validation...';
+        submitBtn.disabled = true;
+      } else {
+        submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Valider l\'accès';
+        submitBtn.disabled = false;
+      }
+    }
+
+    // Correction spécifique pour le quiz 4
+    document.addEventListener('click', function(e) {
+      if (e.target && e.target.matches('.btn-outline')) {
+        const btn = e.target;
+        const quizId = parseInt(btn.getAttribute('onclick').match(/saveQuizScore\((\d+)\)/)[1]);
+        saveQuizScore(quizId);
+      }
+    });
+  </script>
+</body>
+</html>
